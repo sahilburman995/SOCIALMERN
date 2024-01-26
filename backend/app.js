@@ -3,10 +3,11 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 //import dotenv from "dotenv";
+import router from "./routes/route.js";
 import User from './schema/user.js'
 import multer from "multer";
 import helmet from "helmet";
-import morgan from "morgan";
+//import morgan from "morgan";
 import path from "path";
  import { fileURLToPath } from "url";
 
@@ -28,7 +29,8 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
+//app.use(morgan("common"));// Server is running on Port: 3000
+//::1 - - [26/Jan/2024:05:36:20 +0000] "GET / HTTP/1.1" 200 5 moragn ke karan ye dikhtA hai
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -55,6 +57,11 @@ const upload = multer({ storage });
 // app.use("/posts", postRoutes);
 
 /* MONGOOSE SETUP */
+
+app.use('/', router);
+//  '/' krn se sare routes a jayenge e.g /about /connect etc
+
+
 
 app.post('/api/userdetails',async(req,res)=>{
  
@@ -87,16 +94,7 @@ app.post('/api/userdetails',async(req,res)=>{
         res.status(500).json({ error: 'Internal Server Error' });
       }
 })
-app.get('/',(req,res)=>{
-    try {
-     
-        res.json("hello");
-    } catch (error) {
-        console.error('Error fetching messages:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-    
-})
+
 const PORT =  3000;
 const murl="mongodb://localhost:27017";
 mongoose
