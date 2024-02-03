@@ -2,14 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
+import bcrypt from 'bcrypt'
 //import dotenv from "dotenv";
 import router from "./routes/route.js";
 import User from './schema/user.js'
-import multer from "multer";
+import multer from "multer"; 
 import helmet from "helmet";
 //import morgan from "morgan";
+
+
 import path from "path";
  import { fileURLToPath } from "url";
+ import jwt from 'jsonwebtoken';
 
 // import authRoutes from "./routes/auth.js";
 // import userRoutes from "./routes/users.js";
@@ -22,8 +26,10 @@ import path from "path";
 // import { users, posts } from "./data/index.js";
 
 /* CONFIGURATIONS */
+
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename); 
+
 
 const app = express();
 app.use(express.json());
@@ -57,12 +63,23 @@ const upload = multer({ storage });
 // app.use("/posts", postRoutes);
 
 /* MONGOOSE SETUP */
-
-app.use('/', router);
+app.use('/',router)
+app.use('/api/user', router);
 //  '/' krn se sare routes a jayenge e.g /about /connect etc
 
+app.get('/api/userdetails',async( req,res)=>{
+  try {
+    // Retrieve all users from the database
+    const users = await User.find({}, { _id: 0, __v: 0 });
 
+    res.json(users);
+  } catch (error) {
+    console.error('Error retrieving user details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 
+})
+const secretKey = 'sahilburman';
 app.post('/api/userdetails',async(req,res)=>{
  
     const { username, email, password, occupation } = req.body;
@@ -72,28 +89,41 @@ app.post('/api/userdetails',async(req,res)=>{
             return res.status(400).json({ error: 'All fields are required' });
           }
         // Create a new user instance
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const newUser = new User({
           username,
           email,
-          password,
+          password: hashedPassword,
           occupation,
         });
     
         // Save the user to the database
         const savedUser = await newUser.save();
-    
+      console.log(__dirname)
         console.log('User saved:', {
           username: savedUser.username,
           email: savedUser.email,
+          password:savedUser.password,
           occupation: savedUser.occupation,
         });
-    
-        res.status(200).json({ status: 'User saved successfully' });
+        const token = jwt.sign({ userId: savedUser._id }, secretKey, { expiresIn: '1h' });
+        res.status(200).json({
+          status: 'User saved successfully okkkkk',
+          user: {
+            username: savedUser.username,
+            email: savedUser.email,
+            occupation: savedUser.occupation,
+          },
+          token: token,
+        });
+       
       } catch (error) {
         console.error('Error saving user:');
         res.status(500).json({ error: 'Internal Server Error' });
       }
 })
+
 
 const PORT =  3000;
 const murl="mongodb://localhost:27017";
@@ -103,7 +133,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () => console.log(` Server is running on Port: ${PORT}`));
+    app.listen(PORT, () => console.log(` Server is running on Port: ${PORT} and  Mongodb is connected`));
 
     /* ADD DATA ONE TIME */
     // User.insertMany(users);

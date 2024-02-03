@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +10,7 @@ const RegisterPage = () => {
     password: '',
     occupation: '',
   });
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -22,9 +25,16 @@ const RegisterPage = () => {
 try{
     const response  =  await axios.post('http://localhost:3000/api/userdetails',formData);
   resetFormData();
+  toast.success('Regster Successfully Ho Gaya Hai');
 alert('Regster Successfully')
 console.log('Backend response:', response.data);
 // Do any additional handling or update UI as needed
+const token = response.data.token;
+
+// Store the token in local storage
+localStorage.setItem('authToken', token);
+navigate('/Home');
+
 } catch (error) {
 console.error('Error sending message:', error);
 }

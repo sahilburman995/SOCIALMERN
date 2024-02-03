@@ -1,0 +1,181 @@
+/* Navbar.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+body{
+    margin: 0;
+    padding: 0;
+  }
+  
+
+.navbar {
+    background-color: #1a1a1a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+  }
+  
+  .logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin-right: 20px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+    transition: border-bottom 0.3s ease-in-out;
+  }
+  
+  .nav-links a:hover {
+    border-bottom: 2px solid white;
+  }
+  /* style.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.user-details {
+  margin-top: 20px;
+}
+
+.user-card {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.user-card:hover {
+  background-color: #66ccff;
+  cursor: pointer;
+}
+/* AboutPage.css */
+.about-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #333;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.general-info,
+.team-members,
+.contact-details {
+  background-color: white;
+  border: 1px solid #ddd;
+  margin: 20px 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.general-info h2,
+.team-members h2,
+.contact-details h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.team-members ul {
+  list-style: none;
+  padding: 0;
+}
+
+.team-members li {
+  margin-bottom: 5px;
+}
+
+.contact-details a {
+  color: #007bff;
+  text-decoration: none;
+}
+/* FacebookLayout.css */
+.facebook-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #3b5998;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar {
+  flex: 1;
+  background-color: #f0f2f5;
+  padding: 10px;
+}
+
+.news-feed {
+  flex: 2;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.post {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.chat {
+  flex: 1;
+  background-color: #f0f2f5;
+  padding: 10px;
+  background-color: #b5def3;
+
+}
+
+.chat-contact {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+}

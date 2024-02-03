@@ -3,15 +3,20 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './Register.jsx';
 import Home from './Home.jsx'; // Import your other components for different routes
 import About from './About.jsx';
-
+import ProtectedRoute from './protectedRoutes/homeprotect.js';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Router>
+     <ToastContainer />
       <Routes>
         <Route path="/" element={<Register />} />
-        <Route path="/Home" element={<Home />} />
+       
+        <Route path="/Home" element={<ProtectedRoute element={<Home />} />} />
+
         <Route path="/about" element={<About />} />
       </Routes>
     </Router>
