@@ -8,8 +8,8 @@ import router from "./routes/route.js";
 import User from './schema/user.js'
 import multer from "multer"; 
 import helmet from "helmet";
-//import morgan from "morgan";
-
+//zimport morgan from "morgan";
+import fs from 'fs'
 
 import path from "path";
  import { fileURLToPath } from "url";
@@ -43,15 +43,43 @@ app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* FILE STORAGE */
+app.use(express.urlencoded({extended:false}))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/assets");
+    cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
 const upload = multer({ storage });
+app.post('/upload', upload.single('photo'), (req, res) => {
+  // Access the uploaded file details via req.file
+  console.log('Request body:', req.body);
+  console.log('File uploaded:', req.file);
+
+  // Handle the file as needed (e.g., save to a database, respond to the client, etc.)
+
+  res.status(200).json({ message: 'Photo uploaded successfully' });
+});
+
+
+// Add a route to display the uploaded image on a GET request
+app.get('/image', (req, res) => {
+  const uploadPath = path.join(__dirname, 'uploads');
+
+  // Read the contents of the 'uploads' directory
+  fs.readdir(uploadPath, (err, files) => {
+    if (err) {
+      console.error('Error reading directory:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Send the list of filenames as a response
+      res.json({ images: files });
+    }
+  });
+});
 
 /* ROUTES WITH FILES */
 // app.post("/auth/register", upload.single("picture"), register);

@@ -5,6 +5,7 @@ import './style.css'
 import Post from './pages/post';
 function About() {
   const [users, setUsers] = useState([]);
+   const[image,setImage]=useState([]);
 
   useEffect(() => {
     // Axios GET request to fetch user details
@@ -16,7 +17,18 @@ function About() {
       .catch(error => {
         console.error('Error fetching user details:', error);
       });
-  }, ); 
+
+
+      axios.get('http://localhost:3000/image')
+      .then(response=>{
+        console.log('Response data:', response.data); 
+        console.log(response.data.images);
+        setImage(response.data.images);
+      })
+      .catch(error => {
+        console.error('Error fetching user details:', error);
+      });
+  }, []); 
   return (
     <div>
 
@@ -53,7 +65,13 @@ function About() {
           <div className="post">
 
           {users.map((post, index) => (
-            <Post key={index} userName={post.username} postDate="kjasbdjb" content="Lorem qpofehh;h" />
+            <Post
+          key={index}
+          userName={post.username}
+          postDate={post.date} // Replace with actual date field from your API
+          content={post.content}
+          imageUrl={post.imageUrl} // Add the image URL field from your API
+        />
           ))}
       {/* <Post userName="John,,b; Doe" postDate="January 20, 2022" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." /> */}
           </div>
@@ -63,6 +81,9 @@ function About() {
         {/* Chat */}
         <div className="chat">
           <h2>Chat</h2>
+          {image.map((imageName, index) => (
+            <img key={index} src={`http://localhost:3000/uploads/${imageName}`}    className="small-image"  alt={`Image ${index}`} />
+  ))}
           {/* List of chat contacts */}
           <div className="chat-contact">
             <p>Friend 1</p>

@@ -22,18 +22,28 @@ export const verifyToken = (req, res, next) => {
     next();
   });
 };
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads'); // Save files to the 'uploads' folder
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//   return   cb(null, 'uploads'); // Save files to the 'uploads' folder
+//   },
+//   filename: (req, file, cb) => {
+//   return   cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+//   },
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 
+// // Endpoint for handling file upload
+// router.post('/api/uploadPhoto', upload.single('photo'), (req, res) => {
+//   // Access the uploaded file details via req.file
+//   console.log('File uploaded:', req.file);
+
+//   // Handle the file as needed (e.g., save to a database, respond to the client, etc.)
+
+//   res.status(200).json({ message: 'Photo uploaded successfully' });
+// });
+  
 // Example of using the middleware for a protected route
 router.get('/api/protected', verifyToken, (req, res) => {
   // Access granted, req.userId contains the user's ID
@@ -44,7 +54,7 @@ router.get('/api/protected', verifyToken, (req, res) => {
 
 router.get('/',(req,res)=>{
     try {
-      console.log(__dirname);
+     
         res.send("hello From the Router!");
     } catch (error) {
         console.error('Error fetching messages:', error);
@@ -54,16 +64,6 @@ router.get('/',(req,res)=>{
 })
 
 
-// Endpoint for handling file upload
-router.post('/api/uploadPhoto', upload.single('photo'), (req, res) => {
-  // Access the uploaded file details via req.file
-  console.log('File uploaded:', req.file);
-
-  // Handle the file as needed (e.g., save to a database, respond to the client, etc.)
-
-  res.status(200).json({ message: 'Photo uploaded successfully' });
-});
-  
 
 router.get('/user/:id', (req, res) => {
   console.log("user id is",req.params.id)
