@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bcrypt from 'bcrypt'
 //import dotenv from "dotenv";
+import { Server } from "socket.io";
+import post from './schema/post.js'
+import { createServer } from "http";
 import router from "./routes/route.js";
 import User from './schema/user.js'
 import multer from "multer"; 
@@ -12,8 +15,8 @@ import helmet from "helmet";
 import fs from 'fs'
 
 import path from "path";
- import { fileURLToPath } from "url";
- import jwt from 'jsonwebtoken';
+import { fileURLToPath } from "url";
+import jwt from 'jsonwebtoken';
 
 // import authRoutes from "./routes/auth.js";
 // import userRoutes from "./routes/users.js";
@@ -43,8 +46,13 @@ app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* FILE STORAGE */
+
+
+///**********     MULTER SETUP    ************************************************************************************* */
 app.use(express.urlencoded({extended:false}))
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads");
@@ -54,6 +62,9 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+
+
+//****************************************************************************** */
 app.post('/upload', upload.single('photo'), (req, res) => {
   // Access the uploaded file details via req.file
   console.log('Request body:', req.body);
@@ -107,6 +118,7 @@ app.get('/api/userdetails',async( req,res)=>{
   }
 
 })
+
 const secretKey = 'sahilburman';
 app.post('/api/userdetails',async(req,res)=>{
  
@@ -151,10 +163,91 @@ app.post('/api/userdetails',async(req,res)=>{
         res.status(500).json({ error: 'Internal Server Error' });
       }
 })
+//**************************************************************************************************************** */
+app.post('/api/posts',upload.single('photos'), async(req,res)=>{
+
+  try {
+    const { title, content } = req.body;
+
+    // Get the file path of the uploaded photo
+    const photoPath = req.file.path;
+ console.log(photoPath);
+    const newPost = new post({
+      title,
+      content,
+      photo: photoPath,
+    });
+
+    const savedPost = await newPost.save();
+    console.log(title);
+    console.log(content);
+  
+    res.status(201).json(savedPost);
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
 
 
+app.get('/api/posts', async (req, res) => {
+  try {
+    // Fetch all posts from the database
+    const posts = await post.find();
+
+    // Send the fetched posts as a response
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+//********************************************************************************************** */
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://127.0.0.1:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
+
+
+io.on("connection", (socket) => {
+  console.log("connected user");
+  console.log("id", socket.id);
+  socket.broadcast.emit("welcome", `welcome to the server${socket.id}`);
+
+  socket.on("send", (sa) => {
+    console.log(sa);
+  });
+  socket.on("message", ({ room, message }) => {
+    console.log({ room, message });
+    io.to(room).emit("recive", message);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected", socket.id);
+  });
+});
+
+server.listen(5000, () => {
+  console.log(`Server is running on port ${5000}`);
+});
+//************************************************************************************************************ */
 const PORT =  3000;
-const murl="mongodb://localhost:27017";
+const murl="mongodb://localhost:27017/test";
 mongoose
   .connect(murl, {
     useNewUrlParser: true,

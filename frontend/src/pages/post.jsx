@@ -2,17 +2,19 @@
 import React from 'react';
 import './Post.css';
 
-const Post = ({ userName, postDate, content }) => {
+const Post = ({ userName, postDate, content,imageUrl }) => {
+const myimage=`http://localhost:3000/${imageUrl}`;
+console.log(myimage);
+  console.log("my image is",imageUrl);
   return (
     <div className="post-container">
-      <div className="post-header">
-        <img src="user-avatar.jpg" alt="User Avatar" className="user-avatar" />
-        <div className="post-info">
-          <h2>{userName}</h2>
+              
+       
+       <h2>{userName}</h2>
+         
           <p>{postDate}</p>
-        </div>
-      </div>
-
+       
+          <img src={myimage} alt="User Avatar" className="user-avatar" />
       <div className="post-content">
         <p>{content}</p>
       </div>

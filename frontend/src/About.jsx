@@ -1,18 +1,23 @@
 import React, { useState ,useEffect} from 'react';
+
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './style.css'
 import Post from './pages/post';
+import Chats from './pages/chats';
+
 function About() {
-  const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
    const[image,setImage]=useState([]);
 
   useEffect(() => {
     // Axios GET request to fetch user details
-    axios.get('http://localhost:3000/api/userdetails')
+    axios.get('http://localhost:3000/api/posts')
       .then(response => {
         // Set the fetched user details to the state
-        setUsers(response.data);
+        console.log(response.data);
+        setPosts(response.data);
+      
       })
       .catch(error => {
         console.error('Error fetching user details:', error);
@@ -52,11 +57,7 @@ function About() {
       <div className="content-container">
         {/* Sidebar */}
         <div className="sidebar">
-          <p>Profile</p>
-          <p>News Feed</p>
-          <p>Friends</p>
-          <p>Groups</p>
-          {/* Add more sidebar items as needed */}
+          <Chats/>
         </div>
 
         {/* News Feed */}
@@ -64,13 +65,13 @@ function About() {
           {/* News Feed Content */}
           <div className="post">
 
-          {users.map((post, index) => (
+          {posts.map((post, index) => (
             <Post
-          key={index}
-          userName={post.username}
+        key={index}
+          userName={post.title}
           postDate={post.date} // Replace with actual date field from your API
           content={post.content}
-          imageUrl={post.imageUrl} // Add the image URL field from your API
+          imageUrl={post.photo} // Add the image URL field from your API
         />
           ))}
       {/* <Post userName="John,,b; Doe" postDate="January 20, 2022" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." /> */}
@@ -87,6 +88,7 @@ function About() {
           {/* List of chat contacts */}
           <div className="chat-contact">
             <p>Friend 1</p>
+            
           </div>
           {/* Add more chat contacts as needed */}
         </div>

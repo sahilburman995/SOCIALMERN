@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './style.css';
 import PhotoUpload from './protectedRoutes/PhotoUpload.jsx';
+import PostForm from './pages/PostForm.jsx';
 function Home() {
   // State to store user details
   const [users, setUsers] = useState([]);
@@ -22,15 +23,18 @@ function Home() {
   return (
     <>
       <nav className="navbar">
-        <div className="logo">
-          <Link to="/Home">SocialApp</Link>
-        </div>
+      
+      <div className="llogo" style={{ color: 'white' }}>
+  <Link to="/Home">SocialApp</Link>
+</div>
         <ul className="nav-links">
+      
           <li><Link to="/about">About</Link></li>
           <li><Link to="/">Register</Link></li>
         </ul>
       </nav>
       <PhotoUpload/>
+      <PostForm/>
       <div className="user-details" style={{ width: '50%', textAlign: 'center', marginLeft: '20%' }}>
       
         <h2>User Details</h2>
