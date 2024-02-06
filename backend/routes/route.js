@@ -1,7 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import multer from 'multer';
-import path from 'path';
+
 const router = express.Router();
 
 // Secret key for JWT
@@ -22,28 +21,8 @@ export const verifyToken = (req, res, next) => {
     next();
   });
 };
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//   return   cb(null, 'uploads'); // Save files to the 'uploads' folder
-//   },
-//   filename: (req, file, cb) => {
-//   return   cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-//   },
-// });
-
-// const upload = multer({ storage });
 
 
-// // Endpoint for handling file upload
-// router.post('/api/uploadPhoto', upload.single('photo'), (req, res) => {
-//   // Access the uploaded file details via req.file
-//   console.log('File uploaded:', req.file);
-
-//   // Handle the file as needed (e.g., save to a database, respond to the client, etc.)
-
-//   res.status(200).json({ message: 'Photo uploaded successfully' });
-// });
-  
 // Example of using the middleware for a protected route
 router.get('/api/protected', verifyToken, (req, res) => {
   // Access granted, req.userId contains the user's ID

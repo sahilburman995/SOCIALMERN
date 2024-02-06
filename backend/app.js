@@ -224,6 +224,15 @@ app.use(
 
 
 
+// Define message schema and model
+const messageSchema = new mongoose.Schema({
+  room: { type: String, required: true },
+  message: { type: String, required: true },
+});
+
+const Message = mongoose.model('Message', messageSchema);
+
+// Socket.IO event handlers
 io.on("connection", (socket) => {
   console.log("connected user");
   console.log("id", socket.id);
@@ -232,9 +241,22 @@ io.on("connection", (socket) => {
   socket.on("send", (sa) => {
     console.log(sa);
   });
+
+  // Handler for receiving messages
   socket.on("message", ({ room, message }) => {
     console.log({ room, message });
-    io.to(room).emit("recive", message);
+
+    // Save the message to MongoDB
+    const newMessage = new Message({ room, message });
+    newMessage.save()
+      .then(savedMessage => {
+        console.log('Message saved to MongoDB:', savedMessage.message);
+        // Emit the received message to all clients in the room
+        io.to(room).emit("recive", message);
+      })
+      .catch(error => {
+        console.error('Error saving message to MongoDB:', error);
+      });
   });
 
   socket.on("disconnect", () => {
@@ -245,7 +267,8 @@ io.on("connection", (socket) => {
 server.listen(5000, () => {
   console.log(`Server is running on port ${5000}`);
 });
-//************************************************************************************************************ */
+
+// MongoDB connection
 const PORT =  3000;
 const murl="mongodb://localhost:27017/test";
 mongoose

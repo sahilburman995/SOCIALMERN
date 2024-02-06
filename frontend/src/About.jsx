@@ -15,7 +15,7 @@ function About() {
     axios.get('http://localhost:3000/api/posts')
       .then(response => {
         // Set the fetched user details to the state
-        console.log(response.data);
+        
         setPosts(response.data);
       
       })
@@ -31,7 +31,7 @@ function About() {
         setImage(response.data.images);
       })
       .catch(error => {
-        console.error('Error fetching user details:', error);
+        console.error('Error fetching user details1:', error);
       });
   }, []); 
   return (
