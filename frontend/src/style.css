@@ -1,12 +1,16 @@
-/* Navbar.css */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-body{
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  
+}
+.maincontainer{
+   background-color: black;
+   margin: 0;
+   
   }
   
 
@@ -19,6 +23,7 @@ body{
     padding: 15px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     width: 100%;
+   
   }
   
   .llogo {
@@ -51,28 +56,68 @@ body{
   }
   /* style.css */
 
-body {
-  font-family: 'Arial', sans-serif;
-}
+
 
 
 
 
 .user-details {
   margin-top: 20px;
+  background-color: red;
+  display: inline;
+  justify-content: space-between;
+
 }
 
 .user-card {
-  background-color: #f0f0f0;
+ 
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 10px;
-  transition: background-color 0.3s ease-in-out;
+  margin: 20px;
+  flex: 0 0 auto; /* Ensure the card size does not shrink or grow */
+  
+  
+  text-align: center;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+  background-color: rgb(141, 186, 255); /* Transparent white */
+  backdrop-filter: blur(10px); /* Add blur effect */
+}
+
+.user-cards {
+  justify-content: flex-start;
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  gap: 30px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+ 
+  /* Adjust the blue overlay color and opacity as needed */
+}
+
+
+.user-cards img{
+height:70px;
+
+border-radius: 50%;
+
 }
 
 .user-card:hover {
-  background-color: #66ccff;
+  transform: translateY(-5px);
+
   cursor: pointer;
+}
+.add-friend-btn {
+ 
+ 
+
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 /* AboutPage.css */
 .about-page {
@@ -80,12 +125,7 @@ body {
   margin: 0 auto;
 }
 
-header {
-  background-color: #333;
-  padding: 20px;
-  color: white;
-  text-align: center;
-}
+
 
 .general-info,
 .team-members,
@@ -118,21 +158,13 @@ header {
   text-decoration: none;
 }
 /* FacebookLayout.css */
-.facebook-layout {
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
-header {
-  background-color: #3b5998;
-  color: white;
-  padding: 10px;
-  text-align: center;
-}
+
 
 .content-container {
   display: flex;
   justify-content: space-between;
+  background-color: rgb(202, 255, 202);
 }
 
 .sidebar {
@@ -158,8 +190,8 @@ header {
   background-color: #f0f2f5;
   padding: 10px;
   background-color: #b5def3;
-  overflow: scroll;
-  height: 100vh;
+  
+  
 
 }
 
@@ -171,4 +203,93 @@ header {
 .small-image {
   max-width: 200px; /* Set the maximum width as per your design */
   height: auto; /* Maintain aspect ratio */
+}
+.sidebar {
+  width: 200px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: -200px; /* Hide the sidebar off-screen by default */
+  background-color: #f0f0f0;
+  transition: left 0.3s ease;
+  
+  
+}
+.sidebar button{
+  margin-top: 100%; /* Push the button to the bottom of the sidebar */
+  width: 100%; /* Make the button take full width */
+  text-align: center;
+}
+
+.sidebar.open {
+  left: 0; /* Move the sidebar into view when it's open */
+}
+.postform {
+  background-color: #8ecef5; /* Light gray background */
+  border-radius: 10px; /* Rounded corners */
+  padding: 40px 40px 50px 40px; /* Add some padding inside the box */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  margin-bottom: 20px;
+}
+
+.postform:hover {
+  transform: translateY(-2px); /* Add a slight lift effect on hover */
+  transition: transform 0.2s ease; /* Smooth transition for the lift effect */
+}
+.gallery-container {
+  margin: 20px; /* Add some margin around the gallery */
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid layout with minimum width of 200px */
+  grid-gap: 10px; /* Spacing between grid items */
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease; /* Add smooth transition effect */
+}
+
+.gallery-image:hover {
+  transform: scale(1.1); /* Zoom in effect on hover */
+}
+
+.about{
+  margin-top: 50px;
+}
+a {
+  text-decoration: none;
+  color: inherit; /* Optionally inherit the color from the parent */
+}
+.registercontainer {
+  display: flex;
+  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   
+  height: 100vh; /* Adjust as needed */
+ 
+  background-image: url('./assets/pexels-josh-hild-17685536.jpg');
+  background-size: cover;
+}
+
+.registercontainer h2 {
+  color: #fff; /* Adjust text color as needed */
+}
+
+.registercontainer form {
+  background-color: rgba(255, 255, 255, 0.5); /* Adjust background color and opacity as needed */
+  padding: 20px;
+  backdrop-filter: blur(5px);
+  width: 30%;
+  border-radius: 10px;
 }

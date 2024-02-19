@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 const {  model } = mongoose;
 mongoose.connect('mongodb://localhost:27017/test');
 const post =  new mongoose.Schema({
+
+  userId: {
+    type: String,
+    
+  },
   title: {
     type: String,
     required: true,

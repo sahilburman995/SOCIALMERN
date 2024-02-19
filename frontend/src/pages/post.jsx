@@ -4,8 +4,8 @@ import './Post.css';
 
 const Post = ({ userName, postDate, content,imageUrl }) => {
 const myimage=`http://localhost:3000/${imageUrl}`;
-console.log(myimage);
-  console.log("my image is",imageUrl);
+
+  
   return (
     <div className="post-container">
               

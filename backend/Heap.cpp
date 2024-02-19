@@ -107,10 +107,16 @@ if( largest !=ind){
 int main(){
 
 Heap h;
-
+h.insert(1);
+h.insert(2);
+h.insert(3);
+h.insert(4);
+h.insert(5);
+h.insert(6);
 
 int arr[5]={3,6,1,8,4};
 
+h.print();
 h.heapsort(arr,6);
 h.print();
 return 0;

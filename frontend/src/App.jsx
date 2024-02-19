@@ -7,6 +7,7 @@ import ProtectedRoute from './protectedRoutes/homeprotect.js';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfile from './pages/userProfile.jsx';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/Home" element={<ProtectedRoute element={<Home />} />} />
 
         <Route path="/about" element={<About />} />
+        <Route path="/profile/:username" element={<UserProfile />} />
+
       </Routes>
     </Router>
   );

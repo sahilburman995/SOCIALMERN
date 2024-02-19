@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-
+import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const RegisterPage = () => {
@@ -52,8 +52,9 @@ const resetFormData = () => {
   
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div className='registercontainer' style={{fontFamily:'cursive'}}>
+
+      <h2 style={{color:'black', fontSize:40,fontFamily:'cursive'}}>Register</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Username:

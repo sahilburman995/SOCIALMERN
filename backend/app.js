@@ -12,8 +12,9 @@ import User from './schema/user.js'
 import multer from "multer"; 
 import helmet from "helmet";
 //zimport morgan from "morgan";
-import fs from 'fs'
+import { v4 as uuidv4 } from 'uuid';
 
+import fs from 'fs'
 import path from "path";
 import { fileURLToPath } from "url";
 import jwt from 'jsonwebtoken';
@@ -118,10 +119,28 @@ app.get('/api/userdetails',async( req,res)=>{
   }
 
 })
+app.get('/api/userdetails/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+   
+    // Retrieve user details based on the provided username
+    const user = await User.findOne({ username }, { _id: 0, __v: 0 });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error retrieving user details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 const secretKey = 'sahilburman';
 app.post('/api/userdetails',async(req,res)=>{
- 
+    
     const { username, email, password, occupation } = req.body;
     try {
         
@@ -129,9 +148,11 @@ app.post('/api/userdetails',async(req,res)=>{
             return res.status(400).json({ error: 'All fields are required' });
           }
         // Create a new user instance
+        const userId = uuidv4();
         const hashedPassword = await bcrypt.hash(password, 10);
-
+       
         const newUser = new User({
+          userId,
           username,
           email,
           password: hashedPassword,
@@ -142,6 +163,7 @@ app.post('/api/userdetails',async(req,res)=>{
         const savedUser = await newUser.save();
       console.log(__dirname)
         console.log('User saved:', {
+          userId:savedUser.userId,
           username: savedUser.username,
           email: savedUser.email,
           password:savedUser.password,
@@ -192,8 +214,16 @@ app.post('/api/posts',upload.single('photos'), async(req,res)=>{
 
 app.get('/api/posts', async (req, res) => {
   try {
-    // Fetch all posts from the database
-    const posts = await post.find();
+    const userId = req.query.userId; // Extract the userId query parameter from the request
+    let query = {}; // Define an empty query object
+
+    // If userId is provided in the query parameters, add it to the query
+    if (userId) {
+      query = { userId }; // Set the userId field in the query
+    }
+
+    // Fetch posts from the database based on the query
+    const posts = await post.find(query);
 
     // Send the fetched posts as a response
     res.status(200).json(posts);
@@ -202,6 +232,7 @@ app.get('/api/posts', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 //********************************************************************************************** */
@@ -269,6 +300,8 @@ server.listen(5000, () => {
 });
 
 // MongoDB connection
+
+
 const PORT =  3000;
 const murl="mongodb://localhost:27017/test";
 mongoose

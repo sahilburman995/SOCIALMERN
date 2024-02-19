@@ -27,6 +27,10 @@ const PostForm = () => {
       });
 
       // Handle the response as needed (e.g., show a success message)
+      alert('post uploaded');
+      setTitle('')
+      setContent('')
+      setPhoto('');
       console.log('Post created successfully:', response.data);
     } catch (error) {
       // Handle errors (e.g., show an error message)
@@ -37,7 +41,7 @@ const PostForm = () => {
   return (
     <div>
       <h2>Create a New Post</h2>
-      <form action='/api/photos' method='POST' onSubmit={handleSubmit} encType="multipart/form-data">
+      <form action='/api/photos' style={{backgroundColor:'#f0f6fa'}} method='POST' onSubmit={handleSubmit} encType="multipart/form-data">
         <label>Title:</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
 

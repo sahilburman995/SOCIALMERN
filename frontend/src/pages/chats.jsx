@@ -51,7 +51,7 @@ const Chats = () => {
   
   return (
     <>
-      <div className="navbar">
+      <div className="navbara">
         <span>WEBCHAT</span>
       </div>
       <div className="myid" style={{ display: "flex", alignItems: "center" }}>

@@ -17,4 +17,13 @@
     max-width: 70%;
     word-wrap: break-word;
   }
-  
+  .navbara{
+    background-color: #7ca912;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+  }
